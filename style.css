@@ -409,6 +409,149 @@ main {
 .day-col .day-meal { font-size: .56rem; color: var(--muted); margin-top: 3px; line-height: 1.4; }
 
 /* ══════════════════════════════════════
+   FULL WEEK CALENDAR
+══════════════════════════════════════ */
+
+/* Header row */
+.wcal-header {
+  display: grid;
+  grid-template-columns: 46px repeat(7, 1fr);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
+}
+.wcal-time-spacer { /* empty corner */ }
+.wcal-day-hdr {
+  text-align: center;
+  padding: 8px 4px 10px;
+  border-left: 1px solid var(--border);
+}
+.wcal-day-hdr.wcal-today-hdr { background: rgba(255,77,158,0.06); }
+.wcal-day-hdr.wcal-trip-hdr  { background: rgba(230,57,121,0.06); }
+.wcal-day-name {
+  display: block;
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.wcal-today-hdr .wcal-day-name { color: var(--pink); }
+.wcal-day-num {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 3px;
+  line-height: 1;
+}
+.wcal-today-hdr .wcal-day-num {
+  background: linear-gradient(135deg, var(--pink), var(--mauve));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Body */
+.wcal-body {
+  display: grid;
+  grid-template-columns: 46px repeat(7, 1fr);
+  overflow-y: auto;
+  max-height: 600px;
+}
+.wcal-body::-webkit-scrollbar { width: 4px; }
+.wcal-body::-webkit-scrollbar-track { background: transparent; }
+.wcal-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* Time labels */
+.wcal-times { border-right: 1px solid var(--border); }
+.wcal-tlabel {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 3px 6px 0 0;
+  font-size: .58rem;
+  color: var(--muted);
+  font-weight: 500;
+  border-top: 1px solid var(--border);
+}
+
+/* Day columns */
+.wcal-col {
+  position: relative;
+  border-left: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+}
+.wcal-col.wcal-col-today { background: rgba(255,77,158,0.03); }
+
+.wcal-grid-line {
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: var(--border);
+  opacity: .6;
+}
+
+/* Blocks */
+.wcal-block {
+  position: absolute;
+  left: 2px; right: 2px;
+  border-radius: 5px;
+  padding: 2px 5px;
+  font-size: .62rem;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-left: 2px solid;
+  cursor: default;
+}
+/* Reuse color palette */
+.wcal-block.purple { background: rgba(184,169,255,0.15); color: var(--lavender);   border-left-color: var(--lavender); }
+.wcal-block.green  { background: rgba(255,77,158,0.15);  color: var(--pink-light); border-left-color: var(--pink);     }
+.wcal-block.pink   { background: rgba(255,143,171,0.15); color: #FFB3C6;           border-left-color: var(--pink-light);}
+.wcal-block.amber  { background: rgba(212,165,199,0.15); color: var(--dusty);      border-left-color: var(--dusty);    }
+.wcal-block.violet { background: rgba(199,125,255,0.15); color: var(--mauve);      border-left-color: var(--mauve);    }
+.wcal-block.rose   { background: rgba(230,57,121,0.15);  color: var(--pink-light); border-left-color: var(--rose);     }
+.wcal-block.cal    { background: rgba(212,165,199,0.13); color: var(--dusty);      border-left-color: var(--dusty);    }
+
+/* Trip overlay */
+.wcal-trip-block {
+  position: absolute;
+  inset: 4px 2px;
+  background: var(--rose-dim);
+  border: 1px solid rgba(230,57,121,0.3);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .65rem;
+  font-weight: 700;
+  color: var(--pink-light);
+  text-align: center;
+  padding: 4px;
+}
+
+/* Now line */
+.wcal-now-line {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: var(--pink);
+  box-shadow: 0 0 8px rgba(255,77,158,0.7);
+  z-index: 4;
+  pointer-events: none;
+}
+.wcal-now-line::before {
+  content: '';
+  position: absolute;
+  left: -1px; top: -3px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--pink);
+  box-shadow: 0 0 8px rgba(255,77,158,0.9);
+}
+
+/* ══════════════════════════════════════
    ALL-DAY CHIPS
 ══════════════════════════════════════ */
 #all-day-events { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }

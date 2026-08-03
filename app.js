@@ -237,6 +237,111 @@ function renderWeek() {
   }
 }
 
+// ── full week calendar ────────────────────────────────────────
+function renderWeekCal() {
+  const now    = new Date();
+  const today  = now.getDay();
+  const START  = 7;
+  const END    = 23;
+  const PX_HR  = 40;
+  const PX_MIN = PX_HR / 60;
+  const H      = (END - START) * PX_HR;
+
+  const container = $('week-cal');
+  container.innerHTML = '';
+
+  // Monday of this week
+  const mon = new Date(now);
+  mon.setDate(now.getDate() - ((today + 6) % 7));
+
+  // ── Day header row ──
+  const hdr = el('div', 'wcal-header');
+  hdr.appendChild(el('div', 'wcal-time-spacer'));          // blank corner
+  for (let i = 0; i < 7; i++) {
+    const d    = new Date(mon); d.setDate(mon.getDate() + i);
+    const dday = d.getDay();
+    const isToday = d.toDateString() === now.toDateString();
+    const dISO = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const trip = tripForDate(dISO);
+    const cell = el('div', `wcal-day-hdr${isToday ? ' wcal-today-hdr' : ''}${trip ? ' wcal-trip-hdr' : ''}`);
+    cell.innerHTML = `<span class="wcal-day-name">${DAY_SHORT[dday]}</span>
+                      <span class="wcal-day-num">${d.getDate()}</span>`;
+    hdr.appendChild(cell);
+  }
+  container.appendChild(hdr);
+
+  // ── Body: time column + 7 day columns ──
+  const body = el('div', 'wcal-body');
+
+  // Time labels column
+  const timeCol = el('div', 'wcal-times');
+  for (let h = START; h <= END; h++) {
+    const lbl = el('div', 'wcal-tlabel');
+    lbl.style.height = `${PX_HR}px`;
+    lbl.textContent  = h === 12 ? '12 pm' : h > 12 ? `${h-12} pm` : `${h} am`;
+    timeCol.appendChild(lbl);
+  }
+  body.appendChild(timeCol);
+
+  // Day columns
+  for (let i = 0; i < 7; i++) {
+    const d    = new Date(mon); d.setDate(mon.getDate() + i);
+    const dday = d.getDay();
+    const isToday = d.toDateString() === now.toDateString();
+    const dISO = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const trip = tripForDate(dISO);
+
+    const col = el('div', `wcal-col${isToday ? ' wcal-col-today' : ''}`);
+    col.style.height = `${H}px`;
+
+    // Grid lines (one per hour)
+    for (let h = START; h < END; h++) {
+      const line = el('div', 'wcal-grid-line');
+      line.style.top = `${(h - START) * PX_HR}px`;
+      col.appendChild(line);
+    }
+
+    if (trip) {
+      // Show trip overlay instead of blocks
+      const tripBlock = el('div', 'wcal-trip-block');
+      tripBlock.textContent = `✈️ ${trip.name.split('–')[0].trim()}`;
+      col.appendChild(tripBlock);
+    } else {
+      const dayBlocks = CONFIG.blocks.filter(b => b.days.includes(dday));
+      const dayEvents = (CONFIG.events || []).filter(e => e.date === dISO);
+
+      [...dayBlocks, ...dayEvents].forEach(b => {
+        const sm = toMinutes(b.start);
+        const em = toMinutes(b.end);
+        if (sm < START * 60 || em > END * 60) return;
+        const topPx = (sm - START * 60) * PX_MIN;
+        const hPx   = Math.max((em - sm) * PX_MIN, 18);
+
+        const block = el('div', `wcal-block ${b.color}`);
+        block.style.top    = `${topPx}px`;
+        block.style.height = `${hPx}px`;
+        block.title        = `${to12h(b.start)} – ${to12h(b.end)}  ${b.label}`;
+        block.textContent  = b.label;
+        col.appendChild(block);
+      });
+    }
+
+    // Now line on today
+    if (isToday) {
+      const nowMin = now.getHours() * 60 + now.getMinutes();
+      if (nowMin >= START * 60 && nowMin <= END * 60) {
+        const line = el('div', 'wcal-now-line');
+        line.style.top = `${(nowMin - START * 60) * PX_MIN}px`;
+        col.appendChild(line);
+      }
+    }
+
+    body.appendChild(col);
+  }
+
+  container.appendChild(body);
+}
+
 // ── horizontal time blocking ──────────────────────────────────
 function renderSchedule(calEvents = []) {
   const now   = new Date();
@@ -335,6 +440,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderMeal();
   renderGroceries();
   renderWeek();
+  renderWeekCal();
   renderSchedule(todayCal());
 
   setInterval(() => renderSchedule(todayCal()), 60_000);
