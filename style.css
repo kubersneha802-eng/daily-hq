@@ -46,6 +46,22 @@ header .date-line { font-size: .9rem; opacity: .8; margin-top: 4px; }
   text-transform: uppercase;
 }
 
+/* ── Trip banner ── */
+#trip-banner {
+  text-align: center;
+  padding: 10px 24px;
+  font-size: .88rem;
+  font-weight: 500;
+}
+.trip-banner { color: #fff; }
+.trip-purple { background: linear-gradient(90deg, #5B21B6, #7C3AED); }
+.trip-rose   { background: linear-gradient(90deg, #9F1239, #F43F5E); }
+.trip-amber  { background: linear-gradient(90deg, #92400E, #D97706); }
+
+/* ── Trip days in weekly strip ── */
+.day-col.trip-day { border-color: #F43F5E; background: #FFF1F2; }
+.day-col .day-workout.away { background: #FFE4E6; color: #9F1239; }
+
 /* ── Main grid ── */
 main { max-width: 1100px; margin: -20px auto 0; padding: 0 20px; }
 

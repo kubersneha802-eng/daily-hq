@@ -97,6 +97,45 @@ const CONFIG = {
   },
 
   // ----------------------------------------------------------
+  //  TRIPS  (multi-day travel blocks)
+  //  The HQ will show a banner on trip days and auto-add
+  //  pre-trip tasks on prepDate.
+  // ----------------------------------------------------------
+  trips: [
+    {
+      name:     "Philly – AKKA Program",
+      hotel:    "Loews Philadelphia Hotel",
+      start:    "2026-09-04",
+      end:      "2026-09-06",
+      color:    "purple",
+      prepDate: "2026-09-02", // tasks surface 2 days before
+    },
+    {
+      name:     "Anniversary Trip",
+      hotel:    "TBD",
+      start:    "2026-10-23",
+      end:      "2026-10-25",
+      color:    "rose",
+      prepDate: "2026-10-21",
+    },
+  ],
+
+  // ----------------------------------------------------------
+  //  DATE-SPECIFIC TASKS  (appear once on that calendar date)
+  //  Pre-trip reminders live here — add more anytime.
+  // ----------------------------------------------------------
+  dateTasks: {
+    "2026-09-02": [
+      "✅ Vacation pre-check: pack for Philly (Loews Hotel, Sept 4–6), confirm AKKA itinerary",
+      "🐾 Prep dog sitter for Philly trip",
+    ],
+    "2026-10-21": [
+      "✅ Vacation pre-check: pack for anniversary trip (Oct 23–25)",
+      "🐾 Prep dog sitter for anniversary trip",
+    ],
+  },
+
+  // ----------------------------------------------------------
   //  ONE-TIME EVENTS  (YYYY-MM-DD date format)
   //  Add appointments, meetings, or special evenings here.
   // ----------------------------------------------------------

@@ -54,6 +54,45 @@ function todayISO() {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
+// ── trip helpers ─────────────────────────────────────────────
+function tripForDate(iso) {
+  return (CONFIG.trips || []).find(t => iso >= t.start && iso <= t.end) || null;
+}
+
+// ── date-specific tasks auto-inject ──────────────────────────
+function initDateTasks() {
+  const today = todayISO();
+  const toAdd = CONFIG.dateTasks?.[today];
+  if (!toAdd?.length) return;
+
+  const key = `date-tasks-added-${today}`;
+  if (localStorage.getItem(key)) return;
+
+  let tasks = loadTasks();
+  toAdd.slice().reverse().forEach(text => {
+    if (!tasks.find(t => t.text === text)) tasks.unshift({ text, done: false });
+  });
+  saveTasks(tasks);
+  localStorage.setItem(key, '1');
+}
+
+// ── trip banner ───────────────────────────────────────────────
+function renderTripBanner() {
+  const today = todayISO();
+  const trip  = tripForDate(today);
+  const banner = $('trip-banner');
+  if (!trip) { banner.style.display = 'none'; return; }
+
+  const isFirst = today === trip.start;
+  const isLast  = today === trip.end;
+  const phase   = isFirst ? '✈️ Departing today' : isLast ? '🏡 Heading home today' : '📍 Currently away';
+  const hotelLine = trip.hotel !== 'TBD' ? ` &nbsp;·&nbsp; 🏨 ${trip.hotel}` : '';
+
+  banner.style.display = 'block';
+  banner.className = `trip-banner trip-${trip.color}`;
+  banner.innerHTML = `<strong>${phase} — ${trip.name}</strong>${hotelLine}`;
+}
+
 // ── weekly tasks auto-inject ──────────────────────────────────
 function initWeeklyTasks() {
   const now  = new Date();
@@ -234,20 +273,27 @@ function renderWeek() {
     const plan  = CONFIG.workouts[dday];
     const meal  = CONFIG.meals[dday];
 
-    const col = el('div', `day-col${isToday ? ' today' : ''}`);
+    const dISO = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const trip = tripForDate(dISO);
 
-    const focusShort = plan
-      ? plan.focus.split(' ').slice(0,2).join(' ')
-      : 'Rest';
+    const col = el('div', `day-col${isToday ? ' today' : ''}${trip ? ' trip-day' : ''}`);
 
-    const mealShort = meal
-      ? (dday === CONFIG.eatOutDay ? 'Eat out 🍽️' : meal.name.split('+')[0].trim())
-      : '';
+    const focusShort = trip
+      ? '✈️ Away'
+      : plan
+        ? plan.focus.split(' ').slice(0,2).join(' ')
+        : 'Rest';
+
+    const mealShort = trip
+      ? trip.name.split('–')[0].trim()
+      : meal
+        ? (dday === CONFIG.eatOutDay ? 'Eat out 🍽️' : meal.name.split('+')[0].trim())
+        : '';
 
     col.innerHTML = `
       <div class="day-name">${DAY_SHORT[dday]}</div>
       <div class="day-num">${d.getDate()}</div>
-      <div class="day-workout ${plan ? 'active' : 'rest'}">${focusShort}</div>
+      <div class="day-workout ${trip ? 'away' : plan ? 'active' : 'rest'}">${focusShort}</div>
       <div class="day-meal">${mealShort}</div>`;
 
     grid.appendChild(col);
@@ -257,8 +303,10 @@ function renderWeek() {
 // ── init ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   renderHeader();
+  renderTripBanner();
   renderSchedule();
-  initWeeklyTasks(); // must run before renderTasks
+  initDateTasks();    // must run before renderTasks
+  initWeeklyTasks();  // must run before renderTasks
   renderTasks();
   renderWorkout();
   renderMeal();
