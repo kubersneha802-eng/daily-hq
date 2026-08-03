@@ -210,6 +210,27 @@ main {
 .time-block.amber  { background: rgba(212,165,199,0.1);  color: var(--dusty);      border-left-color: var(--dusty);    }
 .time-block.violet { background: rgba(199,125,255,0.1);  color: var(--mauve);      border-left-color: var(--mauve);    }
 .time-block.rose   { background: rgba(230,57,121,0.12);  color: var(--pink-light); border-left-color: var(--rose);     }
+.time-block.cal    { background: rgba(212,165,199,0.13); color: var(--dusty);      border-left-color: var(--dusty);    }
+
+/* ── All-day Apple Calendar chips ── */
+#all-day-events {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+#all-day-events:empty { display: none; }
+
+.all-day-chip {
+  display: inline-block;
+  background: rgba(212,165,199,0.12);
+  border: 1px solid rgba(212,165,199,0.25);
+  color: var(--dusty);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: .72rem;
+  font-weight: 600;
+}
 
 .now-line {
   position: absolute;

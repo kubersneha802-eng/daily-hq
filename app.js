@@ -54,6 +54,21 @@ function todayISO() {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
+// ── Apple Calendar fetch ──────────────────────────────────────
+async function loadCalendarEvents() {
+  try {
+    const res = await fetch('data/calendar.json?t=' + Date.now());
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.events || [];
+  } catch { return []; }
+}
+
+function calEventsForToday(events) {
+  const today = todayISO();
+  return events.filter(e => e.start.slice(0, 10) === today);
+}
+
 // ── trip helpers ─────────────────────────────────────────────
 function tripForDate(iso) {
   return (CONFIG.trips || []).find(t => iso >= t.start && iso <= t.end) || null;
@@ -112,7 +127,7 @@ function initWeeklyTasks() {
 }
 
 // ── render schedule timeline ──────────────────────────────────
-function renderSchedule() {
+function renderSchedule(calEvents = []) {
   const now   = new Date();
   const wday  = now.getDay();
   const START = 7;   // 7 am
@@ -134,11 +149,35 @@ function renderSchedule() {
   // Recurring blocks for today
   const todayBlocks = CONFIG.blocks.filter(b => b.days.includes(wday));
 
-  // One-time events for today
-  const todayStr = todayISO();
+  // One-time events for today (from config)
+  const todayStr    = todayISO();
   const todayEvents = (CONFIG.events || []).filter(e => e.date === todayStr);
 
-  [...todayBlocks, ...todayEvents].forEach(b => {
+  // All-day Apple Calendar events — render as chips above the timeline
+  const allDayBox = $('all-day-events');
+  allDayBox.innerHTML = '';
+  const allDay  = calEvents.filter(e => e.allDay);
+  const timedCal = calEvents.filter(e => !e.allDay);
+  if (allDay.length) {
+    allDay.forEach(e => {
+      const chip = el('span', 'all-day-chip', `📅 ${e.title}`);
+      allDayBox.appendChild(chip);
+    });
+  }
+
+  // Timed Apple Calendar events mapped to block format
+  const calBlocks = timedCal.map(e => {
+    const s = new Date(e.start);
+    const x = new Date(e.end);
+    return {
+      label: e.title + (e.location ? ` · ${e.location}` : ''),
+      start: `${String(s.getHours()).padStart(2,'0')}:${String(s.getMinutes()).padStart(2,'0')}`,
+      end:   `${String(x.getHours()).padStart(2,'0')}:${String(x.getMinutes()).padStart(2,'0')}`,
+      color: 'cal',
+    };
+  });
+
+  [...todayBlocks, ...todayEvents, ...calBlocks].forEach(b => {
     const startMin = toMinutes(b.start);
     const endMin   = toMinutes(b.end);
     const topPx    = (startMin - START * 60) * PX_PER_MIN;
@@ -301,17 +340,26 @@ function renderWeek() {
 }
 
 // ── init ──────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   renderHeader();
   renderTripBanner();
-  renderSchedule();
-  initDateTasks();    // must run before renderTasks
-  initWeeklyTasks();  // must run before renderTasks
+
+  // Load Apple Calendar events, then render schedule
+  let calEvents = await loadCalendarEvents();
+  const todayCal = () => calEventsForToday(calEvents);
+
+  renderSchedule(todayCal());
+  initDateTasks();
+  initWeeklyTasks();
   renderTasks();
   renderWorkout();
   renderMeal();
   renderWeek();
 
-  // refresh clock line every minute
-  setInterval(renderSchedule, 60_000);
+  // Refresh clock line + re-fetch calendar every hour
+  setInterval(() => renderSchedule(todayCal()), 60_000);
+  setInterval(async () => {
+    calEvents = await loadCalendarEvents();
+    renderSchedule(todayCal());
+  }, 60 * 60_000);
 });

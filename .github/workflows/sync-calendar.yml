@@ -1,0 +1,41 @@
+name: Sync Apple Calendar
+
+on:
+  schedule:
+    - cron: "0 * * * *"   # every hour
+  workflow_dispatch:        # allow manual trigger from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install caldav
+
+      - name: Sync iCloud calendar events
+        env:
+          ICLOUD_USERNAME: ${{ secrets.ICLOUD_USERNAME }}
+          ICLOUD_PASSWORD: ${{ secrets.ICLOUD_PASSWORD }}
+        run: python scripts/sync_calendar.py
+
+      - name: Commit updated calendar data
+        run: |
+          git config user.name  "calendar-sync[bot]"
+          git config user.email "calendar-sync[bot]@users.noreply.github.com"
+          git add data/calendar.json
+          git diff --cached --quiet || git commit -m "sync: calendar $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
