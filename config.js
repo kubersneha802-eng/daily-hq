@@ -11,7 +11,9 @@ const CONFIG = {
   //  RECURRING TIME BLOCKS
   // ----------------------------------------------------------
   blocks: [
-    { label: "Morning dog walk", start: "07:30", end: "08:00", days: [0,1,2,3,4,5,6], color: "amber"  },
+    { label: "Wake up + dog walk 🐾", start: "06:00", end: "06:30", days: [0,1,2,3,4,5,6], color: "amber"  },
+    { label: "Shower + get ready",   start: "06:30", end: "07:00", days: [0,1,2,3,4,5,6], color: "violet" },
+    { label: "Coffee + breakfast",   start: "07:00", end: "07:15", days: [0,1,2,3,4,5,6], color: "pink"   },
     { label: "Work",             start: "09:00", end: "17:00", days: [1,2,3,4,5],     color: "purple" },
     // Weekday workout (Mon, Tue, Thu, Fri — Wed & Sun are rest)
     { label: "Workout",          start: "17:30", end: "18:30", days: [1,2,4,5],       color: "green"  },
@@ -140,7 +142,7 @@ const CONFIG = {
   //  Add appointments, meetings, or special evenings here.
   // ----------------------------------------------------------
   events: [
-    { date: "2026-08-03", label: "Financial advisor call 📞",  start: "15:30", end: "16:00", color: "purple" },
+    { date: "2026-08-04", label: "Financial advisor call 📞",  start: "19:30", end: "20:00", color: "purple" },
     { date: "2026-08-03", label: "Set up apartment cameras 📷", start: "17:00", end: "17:30", color: "violet" },
     { date: "2026-08-04", label: "Meet dog babysitter 🐾",      start: "18:00", end: "18:45", color: "amber"  },
     { date: "2026-08-07", label: "Date night @ Junoon 🌹",      start: "20:30", end: "23:59", color: "rose"   },
