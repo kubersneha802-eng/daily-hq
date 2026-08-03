@@ -48,6 +48,30 @@ function renderHeader() {
   $('weekbadge').textContent = `Week ${weekNum(now)}`;
 }
 
+// ── date helpers ──────────────────────────────────────────────
+function todayISO() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+// ── weekly tasks auto-inject ──────────────────────────────────
+function initWeeklyTasks() {
+  const now  = new Date();
+  const wday = now.getDay();
+  const weekly = CONFIG.weeklyTasks?.[wday];
+  if (!weekly?.length) return;
+
+  const weekKey = `weekly-added-${weekNum(now)}-${wday}`;
+  if (localStorage.getItem(weekKey)) return;
+
+  let tasks = loadTasks();
+  weekly.slice().reverse().forEach(text => {
+    if (!tasks.find(t => t.text === text)) tasks.unshift({ text, done: false });
+  });
+  saveTasks(tasks);
+  localStorage.setItem(weekKey, '1');
+}
+
 // ── render schedule timeline ──────────────────────────────────
 function renderSchedule() {
   const now   = new Date();
@@ -68,10 +92,14 @@ function renderSchedule() {
     container.appendChild(row);
   }
 
-  // Place blocks
+  // Recurring blocks for today
   const todayBlocks = CONFIG.blocks.filter(b => b.days.includes(wday));
 
-  todayBlocks.forEach(b => {
+  // One-time events for today
+  const todayStr = todayISO();
+  const todayEvents = (CONFIG.events || []).filter(e => e.date === todayStr);
+
+  [...todayBlocks, ...todayEvents].forEach(b => {
     const startMin = toMinutes(b.start);
     const endMin   = toMinutes(b.end);
     const topPx    = (startMin - START * 60) * PX_PER_MIN;
@@ -230,6 +258,7 @@ function renderWeek() {
 document.addEventListener('DOMContentLoaded', () => {
   renderHeader();
   renderSchedule();
+  initWeeklyTasks(); // must run before renderTasks
   renderTasks();
   renderWorkout();
   renderMeal();

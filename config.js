@@ -97,6 +97,28 @@ const CONFIG = {
   },
 
   // ----------------------------------------------------------
+  //  ONE-TIME EVENTS  (YYYY-MM-DD date format)
+  //  Add appointments, meetings, or special evenings here.
+  // ----------------------------------------------------------
+  events: [
+    { date: "2026-08-03", label: "Financial advisor call 📞",  start: "15:30", end: "16:00", color: "purple" },
+    { date: "2026-08-03", label: "Set up apartment cameras 📷", start: "17:00", end: "17:30", color: "violet" },
+    { date: "2026-08-04", label: "Meet dog babysitter 🐾",      start: "18:00", end: "18:45", color: "amber"  },
+    { date: "2026-08-07", label: "Date night @ Junoon 🌹",      start: "20:30", end: "23:59", color: "rose"   },
+    { date: "2026-08-08", label: "NYC Public BBQ 🎉",           start: "17:00", end: "22:00", color: "amber"  },
+  ],
+
+  // ----------------------------------------------------------
+  //  WEEKLY RECURRING TASKS  (added to task list each week on that day)
+  // ----------------------------------------------------------
+  weeklyTasks: {
+    1: [ // Every Monday
+      "🛒 Order groceries for the week",
+      "📋 Grocery list: paneer · spinach · bell peppers (Mon) | extra-firm tofu · broccoli · snap peas · mushrooms · tamari · sesame oil (Tue+Sat) | zucchini ×3 · ricotta · cherry tomatoes · fresh herbs (Wed) | halloumi · cucumber · kalamata olives · red onion · lemon (Thu) | eggs ×12 · passata/canned tomatoes · arugula (Sun) | cauliflower (Sat) | staples: olive oil · garlic · cumin · red chili flakes",
+    ],
+  },
+
+  // ----------------------------------------------------------
   //  MEAL PLAN  (vegetarian · no carb · no added sugar)
   //  Change "eatOutDay" to any weekday index to move your free day.
   // ----------------------------------------------------------
