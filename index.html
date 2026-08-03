@@ -21,16 +21,9 @@
 
 <main>
 
-  <div class="grid-2">
+  <!-- ── Top 4-column row ── -->
+  <div class="grid-4">
 
-    <!-- Schedule -->
-    <div class="card">
-      <h2>Today's Schedule</h2>
-      <div id="all-day-events"></div>
-      <div class="timeline" id="timeline"></div>
-    </div>
-
-    <!-- Tasks -->
     <div class="card">
       <h2>Today's Tasks</h2>
       <ul class="task-list" id="task-list"></ul>
@@ -40,28 +33,34 @@
       </div>
     </div>
 
-  </div>
-
-  <div class="grid-2">
-
-    <!-- Workout -->
     <div class="card">
       <h2>Today's Workout</h2>
       <div id="workout-body"></div>
     </div>
 
-    <!-- Meal -->
     <div class="card">
       <h2>Tonight's Dinner</h2>
       <div id="meal-body"></div>
     </div>
 
+    <div class="card">
+      <h2>Weekly Groceries</h2>
+      <div id="groceries-body"></div>
+    </div>
+
   </div>
 
-  <!-- Weekly Strip -->
+  <!-- ── Weekly strip ── -->
   <div class="card full">
     <h2>This Week</h2>
     <div class="week-grid" id="week-grid"></div>
+  </div>
+
+  <!-- ── Time blocking (full width, at bottom) ── -->
+  <div class="card full">
+    <h2>Today's Time Blocking</h2>
+    <div id="all-day-events"></div>
+    <div id="timeline"></div>
   </div>
 
 </main>

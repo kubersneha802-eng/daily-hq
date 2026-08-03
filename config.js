@@ -153,7 +153,7 @@ const CONFIG = {
   weeklyTasks: {
     1: [ // Every Monday
       "🛒 Order groceries for the week",
-      "📋 Grocery list: paneer · spinach · bell peppers (Mon) | extra-firm tofu · broccoli · snap peas · mushrooms · tamari · sesame oil (Tue+Sat) | zucchini ×3 · ricotta · cherry tomatoes · fresh herbs (Wed) | halloumi · cucumber · kalamata olives · red onion · lemon (Thu) | eggs ×12 · passata/canned tomatoes · arugula (Sun) | cauliflower (Sat) | staples: olive oil · garlic · cumin · red chili flakes",
+      "📋 Grocery list: paneer · spinach · bell peppers · tofu ×2 · broccoli · snap peas · ginger · tamari · sesame oil · zucchini ×3 · ricotta · cherry tomatoes · halloumi · cucumber · olives · red onion · lemon · cauliflower · olive oil · garlic · red chili flakes",
     ],
   },
 
@@ -164,12 +164,29 @@ const CONFIG = {
   eatOutDay: 5, // Friday
 
   meals: {
-    0: { name: "Shakshuka + Arugula Salad",        prep: "Eggs poached in spiced tomato-pepper sauce, fresh arugula on the side" },
+    0: { name: "Tofu & Bell Pepper Stir-Fry",      prep: "Tofu, bell peppers & broccoli tossed in tamari, sesame oil & fresh ginger" },
     1: { name: "Paneer Bhurji + Sautéed Greens",   prep: "Scrambled paneer with spinach, bell peppers & cumin" },
-    2: { name: "Tofu Veggie Stir-Fry",             prep: "Broccoli, mushrooms & snap peas in tamari-sesame sauce" },
+    2: { name: "Tofu & Broccoli Stir-Fry",         prep: "Broccoli, snap peas & bell peppers in tamari-sesame sauce" },
     3: { name: "Zucchini Boats with Ricotta",       prep: "Hollowed zucchini stuffed with herbed ricotta & roasted cherry tomatoes" },
     4: { name: "Greek Salad + Grilled Halloumi",   prep: "Cucumber, tomato, olives, red onion, squeezed lemon" },
-    5: { name: "🍽️  Eat Out! — you've earned it",   prep: "Enjoy. You can always pick a protein-forward option if you want." },
-    6: { name: "Cauliflower Fried 'Rice' + Tofu",  prep: "Riced cauliflower tossed with egg, tofu, tamari & sesame" },
+    5: { name: "🍽️  Eat Out! — you've earned it",   prep: "Enjoy. Pick something protein-forward if you want to stay on track." },
+    6: { name: "Cauliflower Rice + Tofu & Veggies", prep: "Riced cauliflower with crispy tofu, zucchini & tamari sauce" },
   },
+
+  // ----------------------------------------------------------
+  //  WEEKLY GROCERY LIST  (shown in the Groceries section)
+  // ----------------------------------------------------------
+  groceries: [
+    "Paneer",
+    "Spinach · bell peppers · cumin",
+    "Extra-firm tofu (×2 packs)",
+    "Broccoli · snap peas · fresh ginger",
+    "Tamari sauce · sesame oil",
+    "Zucchini ×3 · ricotta · cherry tomatoes · fresh herbs",
+    "Halloumi · cucumber · kalamata olives · red onion · lemon",
+    "Cauliflower (1 head)",
+    "Staples: olive oil · garlic · red chili flakes",
+    "Cottonelle wipes",
+    "Pepper jack cheese",
+  ],
 };
