@@ -16,17 +16,19 @@ const CONFIG = {
     { label: "Coffee + breakfast",   start: "07:00", end: "07:15", days: [0,1,2,3,4,5,6], color: "pink"   },
     { label: "Work",             start: "09:00", end: "17:00", days: [1,2,3,4,5],     color: "purple" },
     // Weekday workout (Mon, Tue, Thu, Fri — Wed & Sun are rest)
-    { label: "Workout",          start: "17:30", end: "18:30", days: [1,2,4,5],       color: "green"  },
+    { label: "Workout",          start: "17:30", end: "18:30", days: [1,2,4,5],   color: "green"  },
     // Weekend workout (Saturday only — Sunday is rest)
-    { label: "Workout",          start: "09:00", end: "10:00", days: [6],             color: "green"  },
-    // Dinner — after workout on workout days
-    { label: "Cook & eat",       start: "18:45", end: "19:45", days: [1,2,4,5],       color: "pink"   },
-    // Dinner — earlier on rest / weekend days
-    { label: "Cook & eat",       start: "18:00", end: "19:00", days: [0,3,6],         color: "pink"   },
-    // Evening dog walk — after dinner every day
-    { label: "Evening dog walk", start: "19:45", end: "20:15", days: [1,2,4,5],       color: "amber"  },
-    { label: "Evening dog walk", start: "19:00", end: "19:30", days: [0,3,6],         color: "amber"  },
-    { label: "Wind down",        start: "21:30", end: "22:30", days: [0,1,2,3,4,5,6], color: "violet" },
+    { label: "Workout",          start: "09:00", end: "10:00", days: [6],         color: "green"  },
+    // Dinner — Mon, Tue, Thu only (Fri = eat out/date, Sat = social)
+    { label: "Cook & eat",       start: "18:45", end: "19:45", days: [1,2,4],     color: "pink"   },
+    // Dinner — Sun & Wed only (Sat evening is social)
+    { label: "Cook & eat",       start: "18:00", end: "19:00", days: [0,3],       color: "pink"   },
+    // Evening dog walk — Mon, Tue, Thu only
+    { label: "Evening dog walk", start: "19:45", end: "20:15", days: [1,2,4],     color: "amber"  },
+    // Evening dog walk — Sun & Wed only
+    { label: "Evening dog walk", start: "19:00", end: "19:30", days: [0,3],       color: "amber"  },
+    // Wind down — weeknights only (Fri & Sat evenings are free)
+    { label: "Wind down",        start: "21:30", end: "22:30", days: [0,1,2,3,4], color: "violet" },
   ],
 
   // ----------------------------------------------------------
