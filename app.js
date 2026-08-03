@@ -311,11 +311,12 @@ function renderWeekCal() {
       const dayEvents = (CONFIG.events || []).filter(e => e.date === dISO);
 
       [...dayBlocks, ...dayEvents].forEach(b => {
-        const sm = toMinutes(b.start);
-        const em = toMinutes(b.end);
-        if (sm < START * 60 || em > END * 60) return;
-        const topPx = (sm - START * 60) * PX_MIN;
-        const hPx   = Math.max((em - sm) * PX_MIN, 18);
+        const sm       = toMinutes(b.start);
+        const em       = toMinutes(b.end);
+        if (sm >= END * 60 || em <= START * 60) return;   // completely outside window
+        const clampEm  = Math.min(em, END * 60);
+        const topPx    = (sm - START * 60) * PX_MIN;
+        const hPx      = Math.max((clampEm - sm) * PX_MIN, 18);
 
         const block = el('div', `wcal-block ${b.color}`);
         block.style.top    = `${topPx}px`;
@@ -388,7 +389,7 @@ function renderSchedule(calEvents = []) {
   const allBlocks = [...recurring, ...oneOff, ...calTimed].filter(b => {
     const sm = toMinutes(b.start);
     const em = toMinutes(b.end);
-    return sm >= START * 60 && em <= END * 60 && em > sm;
+    return sm < END * 60 && em > START * 60 && em > sm;
   });
 
   // ── Row areas ──
@@ -396,10 +397,11 @@ function renderSchedule(calEvents = []) {
   const rowArea1 = el('div', 'h-row');
 
   allBlocks.forEach(b => {
-    const sm  = toMinutes(b.start);
-    const em  = toMinutes(b.end);
-    const lft = ((sm - START * 60) / TOTAL * 100).toFixed(4);
-    const wid = ((em - sm) / TOTAL * 100).toFixed(4);
+    const sm      = toMinutes(b.start);
+    const em      = toMinutes(b.end);
+    const clampEm = Math.min(em, END * 60);
+    const lft     = ((sm - START * 60) / TOTAL * 100).toFixed(4);
+    const wid     = ((clampEm - sm) / TOTAL * 100).toFixed(4);
 
     const block = el('div', `h-block ${b.color}`);
     block.style.left  = `${lft}%`;
