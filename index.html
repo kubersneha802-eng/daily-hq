@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily HQ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1 id="greeting"></h1>
+  <div class="date-line" id="dateline"></div>
+  <span class="week-badge" id="weekbadge"></span>
+</header>
+
+<main>
+
+  <div class="grid-2">
+
+    <!-- Schedule -->
+    <div class="card">
+      <h2>Today's Schedule</h2>
+      <div class="timeline" id="timeline"></div>
+    </div>
+
+    <!-- Tasks -->
+    <div class="card">
+      <h2>Today's Tasks</h2>
+      <ul class="task-list" id="task-list"></ul>
+      <div class="add-task">
+        <input id="task-input" type="text" placeholder="Add a task…">
+        <button id="task-add">Add</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="grid-2">
+
+    <!-- Workout -->
+    <div class="card">
+      <h2>Today's Workout</h2>
+      <div id="workout-body"></div>
+    </div>
+
+    <!-- Meal -->
+    <div class="card">
+      <h2>Tonight's Dinner</h2>
+      <div id="meal-body"></div>
+    </div>
+
+  </div>
+
+  <!-- Weekly Strip -->
+  <div class="card full">
+    <h2>This Week</h2>
+    <div class="week-grid" id="week-grid"></div>
+  </div>
+
+</main>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

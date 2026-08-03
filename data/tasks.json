@@ -1,0 +1,10 @@
+{
+  "tasks": [
+    {
+      "date": "2026-08-03",
+      "items": [
+        { "id": 1, "text": "Edit this file to add your own tasks!", "done": false, "tag": "meta" }
+      ]
+    }
+  ]
+}
