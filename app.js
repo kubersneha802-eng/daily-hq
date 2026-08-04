@@ -169,16 +169,20 @@ function renderTasks() {
 
 // ── render workout ────────────────────────────────────────────
 function renderWorkout() {
-  const wday = new Date().getDay();
-  const plan = CONFIG.workouts[wday];
-  const box  = $('workout-body');
+  const wday     = new Date().getDay();
+  const override = CONFIG.workoutOverrides?.[todayISO()];
+  const plan     = override || CONFIG.workouts[wday];
+  const box      = $('workout-body');
   if (!plan) {
     box.innerHTML = `<div class="rest-badge">😴 Rest Day</div>
       <p class="workout-tip">Recovery is when your muscles actually grow. A long walk with the pup counts.</p>`;
     return;
   }
+  const badge = override
+    ? `<div class="rest-badge">🚶‍♀️ ${plan.focus}</div>`
+    : `<div class="workout-focus">💪 ${plan.focus}</div>`;
   box.innerHTML = `
-    <div class="workout-focus">💪 ${plan.focus}</div>
+    ${badge}
     <p class="workout-tip">${plan.tip}</p>
     <ul class="exercise-list">${plan.exercises.map(e => `<li>${e}</li>`).join('')}</ul>`;
 }
@@ -223,7 +227,11 @@ function renderWeek() {
     const meal = CONFIG.meals[dday];
 
     const col = el('div', `day-col${isToday ? ' today' : ''}${trip ? ' trip-day' : ''}`);
-    const focusShort = trip ? '✈️ Away' : plan ? plan.focus.split(' ').slice(0,2).join(' ') : 'Rest';
+    const override   = CONFIG.workoutOverrides?.[dISO];
+    const focusShort = trip    ? '✈️ Away'
+                     : override ? '🚶‍♀️ Walking'
+                     : plan     ? plan.focus.split(' ').slice(0,2).join(' ')
+                     : 'Rest';
     const mealShort  = trip
       ? trip.name.split('–')[0].trim()
       : meal ? (dday === CONFIG.eatOutDay ? 'Eat out 🍽️' : meal.name.split('+')[0].trim()) : '';
@@ -231,7 +239,7 @@ function renderWeek() {
     col.innerHTML = `
       <div class="day-name">${DAY_SHORT[dday]}</div>
       <div class="day-num">${d.getDate()}</div>
-      <div class="day-workout ${trip ? 'away' : plan ? 'active' : 'rest'}">${focusShort}</div>
+      <div class="day-workout ${trip ? 'away' : (override || plan) ? 'active' : 'rest'}">${focusShort}</div>
       <div class="day-meal">${mealShort}</div>`;
     grid.appendChild(col);
   }

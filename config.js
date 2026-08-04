@@ -140,6 +140,16 @@ const CONFIG = {
   },
 
   // ----------------------------------------------------------
+  //  WORKOUT OVERRIDES  (replace a day's workout without changing the plan)
+  // ----------------------------------------------------------
+  workoutOverrides: {
+    "2026-08-04": { focus: "Walking only", tip: "Rest and be gentle with yourself. A slow walk is plenty.", exercises: ["Easy walk — go at your own pace 🚶‍♀️"] },
+    "2026-08-06": { focus: "Walking only", tip: "Rest and be gentle with yourself. A slow walk is plenty.", exercises: ["Easy walk — go at your own pace 🚶‍♀️"] },
+    "2026-08-07": { focus: "Walking only", tip: "Rest and be gentle with yourself. A slow walk is plenty.", exercises: ["Easy walk — go at your own pace 🚶‍♀️"] },
+    "2026-08-08": { focus: "Walking only", tip: "Rest and be gentle with yourself. A slow walk is plenty.", exercises: ["Easy walk — go at your own pace 🚶‍♀️"] },
+  },
+
+  // ----------------------------------------------------------
   //  ONE-TIME EVENTS  (YYYY-MM-DD date format)
   //  Add appointments, meetings, or special evenings here.
   // ----------------------------------------------------------
