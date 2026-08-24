@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Point Pleasant Beach Day — Aug 29</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Karla:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+  :root{
+    --ocean:#154548;
+    --ocean-dark:#0d2e30;
+    --sand:#F1E4C6;
+    --sand-light:#FAF3E2;
+    --coral:#E8623F;
+    --seafoam:#8FBBAA;
+    --ink:#2A2420;
+    --gold:#EFA940;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ocean-dark);
+    background-image:
+      radial-gradient(circle at 15% 5%, rgba(143,187,170,0.15), transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(232,98,63,0.12), transparent 45%);
+    font-family:'Karla', sans-serif;
+    color:var(--ink);
+    padding:32px 14px 60px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .sheet{
+    max-width:640px;
+    margin:0 auto;
+  }
+
+  /* ===== Ticket header ===== */
+  .ticket{
+    background:var(--sand-light);
+    border-radius:18px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+    border:1px solid rgba(0,0,0,0.06);
+  }
+  .ticket-top{
+    background:var(--ocean);
+    color:var(--sand-light);
+    padding:26px 28px 22px;
+    position:relative;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin:0 0 10px;
+  }
+  h1{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:900;
+    font-size:40px;
+    line-height:0.95;
+    margin:0 0 6px;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+  }
+  .sub{
+    font-size:14.5px;
+    color:var(--seafoam);
+    margin:0;
+    font-weight:500;
+  }
+  .waves{
+    position:absolute; bottom:-1px; left:0; width:100%; height:14px;
+    background:repeating-linear-gradient(-45deg, var(--sand-light) 0 7px, transparent 7px 14px);
+    opacity:0.9;
+  }
+  .ticket-meta{
+    display:flex;
+    justify-content:space-between;
+    padding:18px 28px 20px;
+    border-bottom:2px dashed rgba(42,36,32,0.2);
+  }
+  .meta-item .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:#8a7f6f;
+    margin:0 0 4px;
+  }
+  .meta-item .value{
+    font-size:16px;
+    font-weight:700;
+    margin:0;
+  }
+  .punch{
+    position:absolute;
+    width:22px; height:22px;
+    background:var(--ocean-dark);
+    border-radius:50%;
+    top:118px;
+  }
+  .punch.left{ left:-11px; }
+  .punch.right{ right:-11px; }
+
+  /* ===== Timeline ===== */
+  .timeline{
+    padding:26px 28px 8px;
+  }
+  .block-title{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:700;
+    font-size:20px;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    color:var(--coral);
+    margin:26px 0 14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .block-title:first-child{ margin-top:0; }
+  .block-title::after{
+    content:'';
+    flex:1;
+    height:1px;
+    background:repeating-linear-gradient(to right, var(--coral) 0 5px, transparent 5px 9px);
+  }
+
+  .row{
+    display:grid;
+    grid-template-columns:78px 1fr;
+    gap:14px;
+    position:relative;
+    padding-bottom:16px;
+  }
+  .row::before{
+    content:'';
+    position:absolute;
+    left:45px; top:6px; bottom:-2px;
+    width:2px;
+    background:var(--seafoam);
+    opacity:0.5;
+  }
+  .row:last-child::before{ display:none; }
+  .time{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--ocean);
+    text-align:right;
+    padding-top:1px;
+    line-height:1.3;
+  }
+  .dot{
+    position:absolute;
+    left:40px; top:3px;
+    width:12px; height:12px;
+    border-radius:50%;
+    background:var(--coral);
+    border:2px solid var(--sand-light);
+  }
+  .event h3{
+    margin:0 0 3px;
+    font-size:15.5px;
+    font-weight:700;
+  }
+  .event p{
+    margin:0;
+    font-size:13.5px;
+    color:#5b5145;
+    line-height:1.45;
+  }
+
+  /* ===== Callout ===== */
+  .callout{
+    margin:22px 28px 0;
+    background:rgba(143,187,170,0.18);
+    border-left:3px solid var(--seafoam);
+    padding:14px 16px;
+    border-radius:0 8px 8px 0;
+  }
+  .callout .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ocean);
+    margin:0 0 6px;
+    font-weight:600;
+  }
+  .callout p{
+    margin:0 0 6px;
+    font-size:13.5px;
+    line-height:1.5;
+  }
+  .callout p:last-child{ margin-bottom:0; }
+
+  /* ===== Dinner cards ===== */
+  .dinner-section{ padding:8px 28px 4px; }
+  .cards{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:14px;
+  }
+  .card{
+    background:var(--sand);
+    border-radius:10px;
+    padding:12px 13px;
+    border:1px solid rgba(42,36,32,0.08);
+  }
+  .card .name{
+    font-weight:700;
+    font-size:13.5px;
+    margin:0 0 3px;
+  }
+  .card .desc{
+    font-size:12px;
+    color:#5b5145;
+    margin:0;
+    line-height:1.4;
+  }
+
+  /* ===== Packing list ===== */
+  .packing{
+    padding:8px 28px 28px;
+  }
+  .pack-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:4px 18px;
+    margin-top:12px;
+  }
+  .pack-item{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    font-size:13.5px;
+    padding:5px 0;
+    border-bottom:1px solid rgba(42,36,32,0.08);
+  }
+  .pack-item .box{
+    width:14px; height:14px;
+    border:1.5px solid var(--ocean);
+    border-radius:3px;
+    flex-shrink:0;
+    margin-top:2px;
+  }
+
+  .footer-strip{
+    background:var(--ocean);
+    color:var(--seafoam);
+    text-align:center;
+    padding:12px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+  }
+
+  @media (max-width:420px){
+    h1{ font-size:32px; }
+    .ticket-meta{ flex-wrap:wrap; gap:14px; }
+    .cards{ grid-template-columns:1fr; }
+    .pack-grid{ grid-template-columns:1fr; }
+    .row{ grid-template-columns:60px 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <div class="ticket">
+
+      <div class="ticket-top">
+        <p class="eyebrow">Day Pass · No. 2</p>
+        <h1>Point Pleasant Beach</h1>
+        <p class="sub">Martell's Tiki Bar &nbsp;•&nbsp; Sat, Aug 29, 2026</p>
+        <div class="waves"></div>
+      </div>
+
+      <div class="punch left"></div>
+      <div class="punch right"></div>
+      <div class="ticket-meta">
+        <div class="meta-item">
+          <p class="label">Travelers</p>
+          <p class="value">You + BF</p>
+        </div>
+        <div class="meta-item">
+          <p class="label">Pickup</p>
+          <p class="value">7:30 AM · EWR</p>
+        </div>
+        <div class="meta-item">
+          <p class="label">Return</p>
+          <p class="value">Next day</p>
+        </div>
+      </div>
+
+      <div class="timeline">
+
+        <p class="block-title">Morning</p>
+        <div class="row">
+          <div class="time">7:00 AM</div>
+          <div class="dot"></div>
+          <div class="event"><h3>Leave for EWR</h3><p>Uber/Lyft or AirTrain from Jersey City.</p></div>
+        </div>
+        <div class="row">
+          <div class="time">7:30 AM</div>
+          <div class="dot"></div>
+          <div class="event"><h3>Pick up rental car</h3><p>Grab the paperwork, top off wiper fluid check, you're off.</p></div>
+        </div>
+        <div class="row">
+          <div class="time">7:45 AM</div>
+          <div class="dot"></div>
+          <div class="event"><h3>Drive to Point Pleasant Beach</h3><p>~70–80 min via the Garden State Parkway.</p></div>
+        </div>
+        <div class="row">
+          <div class="time">9:15 AM</div>
+          <div class="dot"></div>
+          <div class="event"><h3>Arrive &amp; set up</h3><p>Park, grab two Martell's day badges, claim your spot on the sand.</p></div>
+        </div>
+
+        <p class="block-title">Midday</p>
+        <div class="row">
+          <div class="time">9:30 AM<br>–1:00 PM</div>
+          <div class="dot"></div>
+          <div class="event"><h3>Beach time</h3><p>Swim, relax, work on the tan.</p></div>
+        </div>
+        <div class="row">
+          <div class="time">1:00 PM</div>
+          <div class="dot"></div>
+          <div class="event"><h3>Lunch at Martell's</h3><p>Right on the beach — burgers, quesadillas, nachos, salads.</p></div>
+        </div>
+        <div class="row">
+          <div class="time">2:00<br>–4:30 PM</div>
+          <div class="dot"></div>
+          <div class="event"><h3>More beach or boardwalk</h3><p>Jenkinson's arcade, aquarium, or a Kohr Bros custard run.</p></div>
+        </div>
+
+        <p class="block-title">Evening</p>
+        <div class="row">
+          <div class="time">4:30<br>–5:30 PM</div>
+          <div class="dot"></div>
+          <div class="event"><h3>Rinse off &amp; change</h3><p>Outdoor showers at Martell's, then head toward downtown.</p></div>
+        </div>
+        <div class="row">
+          <div class="time">6:00<br>–7:30 PM</div>
+          <div class="dot"></div>
+          <div class="event"><h3>Dinner on Arnold Ave</h3><p>Vegetarian-friendly, non-seafood picks below.</p></div>
+        </div>
+        <div class="row">
+          <div class="time">7:30<br>–9:00 PM</div>
+          <div class="dot"></div>
+          <div class="event"><h3>Wind down</h3><p>Stroll downtown, or catch live music back at Martell's.</p></div>
+        </div>
+        <div class="row">
+          <div class="time">9:00 PM</div>
+          <div class="dot"></div>
+          <div class="event"><h3>Drive home</h3><p>~75–90 min back to Jersey City.</p></div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p class="label">Good to know</p>
+        <p>Martell's beach bans outside coolers, food, and alcohol — anything you eat/drink there has to come from them, which your lunch plan already covers.</p>
+        <p>Return the rental to EWR whenever suits the next day.</p>
+      </div>
+
+      <div class="dinner-section">
+        <p class="block-title" style="margin-top:22px;">Dinner Picks</p>
+        <div class="cards">
+          <div class="card">
+            <p class="name">Point Pizza</p>
+            <p class="desc">Casual, hand-stretched pizza. Easy veg options, low-key vibe.</p>
+          </div>
+          <div class="card">
+            <p class="name">Spano's Ristorante Italiano</p>
+            <p class="desc">Sit-down Italian, solid pasta and vegetarian dishes.</p>
+          </div>
+          <div class="card">
+            <p class="name">B2 Bistro</p>
+            <p class="desc">American menu, known for accommodating vegetarian requests.</p>
+          </div>
+          <div class="card">
+            <p class="name">La Mondina</p>
+            <p class="desc">Italian, well-reviewed — good pick for a nicer dinner.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="packing">
+        <p class="block-title" style="margin-top:22px;">Packing List <span style="color:#8a7f6f; font-size:12px; text-transform:none; font-family:'Karla',sans-serif; font-weight:400;">&nbsp;(×2)</span></p>
+        <div class="pack-grid">
+          <label class="pack-item"><span class="box"></span> Swimsuits</label>
+          <label class="pack-item"><span class="box"></span> Towel (blanket's covered)</label>
+          <label class="pack-item"><span class="box"></span> Sunscreen</label>
+          <label class="pack-item"><span class="box"></span> Sunglasses + hats</label>
+          <label class="pack-item"><span class="box"></span> Flip-flops</label>
+          <label class="pack-item"><span class="box"></span> Change of clothes for dinner</label>
+          <label class="pack-item"><span class="box"></span> Light layer for evening</label>
+          <label class="pack-item"><span class="box"></span> Portable charger</label>
+          <label class="pack-item"><span class="box"></span> Cash + card</label>
+          <label class="pack-item"><span class="box"></span> Driver's license</label>
+          <label class="pack-item"><span class="box"></span> Ziploc bags for wet stuff</label>
+        </div>
+      </div>
+
+      <div class="footer-strip">Have a great one at the shore 🌊</div>
+    </div>
+  </div>
+</body>
+</html>
