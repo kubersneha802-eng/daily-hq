@@ -133,15 +133,15 @@
 
   .row{
     display:grid;
-    grid-template-columns:78px 1fr;
-    gap:14px;
+    grid-template-columns:70px 1fr;
+    gap:18px;
     position:relative;
     padding-bottom:16px;
   }
   .row::before{
     content:'';
     position:absolute;
-    left:45px; top:6px; bottom:-2px;
+    left:78px; top:6px; bottom:-2px;
     width:2px;
     background:var(--seafoam);
     opacity:0.5;
@@ -158,7 +158,7 @@
   }
   .dot{
     position:absolute;
-    left:40px; top:3px;
+    left:73px; top:3px;
     width:12px; height:12px;
     border-radius:50%;
     background:var(--coral);
@@ -268,7 +268,9 @@
     .ticket-meta{ flex-wrap:wrap; gap:14px; }
     .cards{ grid-template-columns:1fr; }
     .pack-grid{ grid-template-columns:1fr; }
-    .row{ grid-template-columns:60px 1fr; }
+    .row{ grid-template-columns:60px 1fr; gap:14px; }
+    .row::before{ left:64px; }
+    .dot{ left:59px; }
   }
 </style>
 </head>
